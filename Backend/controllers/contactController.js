@@ -1,3 +1,5 @@
+const transporter = require("../src/config/mail");
+
 exports.sendMessage = async (req, res) => {
   try {
     const { name, email, subject, message } = req.body;
