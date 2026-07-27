@@ -1,6 +1,3 @@
-const pool = require("../src/config/db");
-const transporter = require("../src/config/mail");
-
 exports.sendMessage = async (req, res) => {
   try {
     const { name, email, subject, message } = req.body;
@@ -11,11 +8,6 @@ exports.sendMessage = async (req, res) => {
         message: "Name, email and message are required",
       });
     }
-
-    await pool.query(
-      "INSERT INTO contacts (name, email, subject, message) VALUES (?, ?, ?, ?)",
-      [name, email, subject || null, message]
-    );
 
     await transporter.sendMail({
       from: process.env.MAIL_USER,
@@ -37,11 +29,11 @@ exports.sendMessage = async (req, res) => {
       message: "Message sent successfully",
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     res.status(500).json({
       success: false,
-      message: "Message sending failed",
+      message: error.message,
     });
   }
-}; 
+};
