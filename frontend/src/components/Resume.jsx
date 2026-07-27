@@ -45,7 +45,7 @@ function Resume() {
     }
 
     setIsPreparingDownload(true);
-    window.open("http://localhost:5000/api/resume/download", "_blank", "noopener,noreferrer");
+    window.open("https://sriganesh-portfolio-bogx.onrender.com/download", "_blank", "noopener,noreferrer");
 
     window.setTimeout(() => {
       setIsPreparingDownload(false);

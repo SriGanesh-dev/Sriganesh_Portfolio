@@ -44,7 +44,7 @@ function Contact() {
     setIsSending(true);
 
     try {
-      await axios.post("http://localhost:5000/api/contact/send", formData);
+      await axios.post("https://sriganesh-portfolio-bogx.onrender.com/api/contact/send", formData);
 
       setFormData({
         name: "",
