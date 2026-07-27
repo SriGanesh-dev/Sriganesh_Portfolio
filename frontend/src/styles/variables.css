@@ -1,0 +1,57 @@
+:root {
+  /* Background colors */
+  --color-bg-primary: #080817;
+  --color-bg-secondary: #0d0d22;
+  --color-card-bg: #11112a;
+  --color-card-glass: rgba(255, 255, 255, 0.04);
+
+  /* Text colors */
+  --color-text-primary: #f4f4ff;
+  --color-text-secondary: #b8b8c9;
+  --color-text-muted: #8f8fa3;
+
+  /* Accent colors */
+  --color-primary: #6c63ff;
+  --color-secondary: #a855f7;
+  --color-gradient: linear-gradient(90deg, #6c63ff, #a855f7);
+
+  /* Border */
+  --color-border: rgba(108, 99, 255, 0.25);
+  --color-border-light: rgba(255, 255, 255, 0.08);
+
+  /* Font */
+  --font-main: "Inter", sans-serif;
+
+  /* Font sizes */
+  --fs-logo: 1.5rem;
+  --fs-hero-title: clamp(2.5rem, 7vw, 4rem);
+  --fs-section-title: clamp(2rem, 4vw, 2.5rem);
+  --fs-body: 1rem;
+  --fs-small: 0.875rem;
+
+  /* Spacing */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 4rem;
+  --space-2xl: 6rem;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+
+  /* Shadows */
+  --shadow-soft: 0 20px 60px rgba(0, 0, 0, 0.35);
+  --shadow-glow: 0 0 40px rgba(108, 99, 255, 0.35);
+
+  /* Layout */
+  --container-width: 1200px;
+  --navbar-height: 80px;
+
+  /* Transition */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+}
