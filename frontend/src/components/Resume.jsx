@@ -45,7 +45,7 @@ function Resume() {
     }
 
     setIsPreparingDownload(true);
-    window.open("https://sriganesh-portfolio-bogx.onrender.com/download", "_blank", "noopener,noreferrer");
+    window.open("https://sriganesh-portfolio-bogx.onrender.com/api/resume/download", "_blank", "noopener,noreferrer");
 
     window.setTimeout(() => {
       setIsPreparingDownload(false);
@@ -80,7 +80,7 @@ function Resume() {
           </p>
 
           <a
-            href="http://localhost:5000/api/resume/download"
+            href="https://sriganesh-portfolio-bogx.onrender.com/api/resume/download"
             className="resume-dnl-btn"
             onClick={handleDownload}
           >
