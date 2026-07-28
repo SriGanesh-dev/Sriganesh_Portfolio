@@ -54,12 +54,23 @@ smtpTransporter.verify((err) => {
 async function sendMail({ from, to, subject, text = "", html = "" }) {
   // Try SendGrid first when available
   if (sgMail) {
-    const msg = { to, from, subject, text, html };
+    const sendGridFrom = process.env.SENDGRID_FROM || process.env.MAIL_USER || process.env.EMAIL_USER;
+    const msg = {
+      to,
+      from: sendGridFrom,
+      subject,
+      text,
+      html,
+      replyTo: from,
+    };
     try {
       const res = await sgMail.send(msg);
       return { success: true, provider: "sendgrid", response: res };
     } catch (err) {
       console.error("❌ SendGrid send error:", err && err.message);
+      if (err.response && err.response.body) {
+        console.error("SendGrid response body:", JSON.stringify(err.response.body));
+      }
       // fallthrough to SMTP fallback
     }
   }

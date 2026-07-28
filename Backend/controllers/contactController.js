@@ -16,6 +16,7 @@ exports.sendMessage = async (req, res) => {
       subject: subject || `New contact from ${name}`,
       text: message,
       html: `<p><strong>From:</strong> ${name} &lt;${email}&gt;</p><p>${message}</p>`,
+      replyTo: `${name} <${email}>`,
     };
 
     // Respond early to avoid client timeouts; send mail in background
