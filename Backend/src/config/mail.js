@@ -6,8 +6,21 @@ dotenv.config();
 
 dns.setDefaultResultOrder("ipv4first");
 
+const host = process.env.MAIL_HOST || "smtp.gmail.com";
+const port = process.env.MAIL_PORT ? Number(process.env.MAIL_PORT) : 587;
+const secure = process.env.MAIL_SECURE === "true" || false;
+
+// Force IPv4 DNS lookup to avoid ENETUNREACH on hosts without IPv6
+const lookup = (hostname, options, callback) => {
+  // options may be number or object depending on caller
+  const family = 4;
+  require('dns').lookup(hostname, { family }, callback);
+};
+
 const transporter = nodemailer.createTransport({
-  service: process.env.MAIL_SERVICE || "gmail",
+  host,
+  port,
+  secure,
   auth: {
     user: process.env.MAIL_USER || process.env.EMAIL_USER,
     pass: process.env.MAIL_PASS || process.env.EMAIL_PASS,
@@ -19,6 +32,7 @@ const transporter = nodemailer.createTransport({
   greetingTimeout: Number(process.env.MAIL_GREETING_TIMEOUT) || 5000,
   socketTimeout: Number(process.env.MAIL_SOCKET_TIMEOUT) || 10000,
   tls: { rejectUnauthorized: false },
+  lookup,
 });
 
 // Verify SMTP connection when the app starts
