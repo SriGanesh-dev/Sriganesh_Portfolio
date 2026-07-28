@@ -6,18 +6,29 @@ dotenv.config();
 
 dns.setDefaultResultOrder("ipv4first");
 
+let sgMail = null;
+if (process.env.SENDGRID_API_KEY) {
+  try {
+    sgMail = require("@sendgrid/mail");
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    console.log("✅ SendGrid configured as primary mail service");
+  } catch (err) {
+    console.warn("⚠️ Failed to load @sendgrid/mail; falling back to SMTP:", err && err.message);
+    sgMail = null;
+  }
+}
+
 const host = process.env.MAIL_HOST || "smtp.gmail.com";
 const port = process.env.MAIL_PORT ? Number(process.env.MAIL_PORT) : 587;
 const secure = process.env.MAIL_SECURE === "true" || false;
 
 // Force IPv4 DNS lookup to avoid ENETUNREACH on hosts without IPv6
 const lookup = (hostname, options, callback) => {
-  // options may be number or object depending on caller
   const family = 4;
-  require('dns').lookup(hostname, { family }, callback);
+  dns.lookup(hostname, { family }, callback);
 };
 
-const transporter = nodemailer.createTransport({
+const smtpTransporter = nodemailer.createTransport({
   host,
   port,
   secure,
@@ -35,29 +46,31 @@ const transporter = nodemailer.createTransport({
   lookup,
 });
 
-// Verify SMTP connection when the app starts
-transporter.verify((err, success) => {
-  if (err) {
-    console.error("❌ SMTP Connection Failed", err && err.message);
-  } else {
-    console.log("✅ Mail Server Connected Successfully");
-  }
+smtpTransporter.verify((err) => {
+  if (err) console.warn("⚠️ SMTP transporter verification failed:", err && err.message);
+  else console.log("✅ SMTP transporter is ready");
 });
 
-async function sendMail({ to, subject, text = "", html = "", from }) {
-  try {
-    const info = await transporter.sendMail({
-      from: from || `"Sri Ganesh Portfolio" <${process.env.MAIL_USER || process.env.EMAIL_USER}>`,
-      to,
-      subject,
-      text,
-      html,
-    });
+async function sendMail({ from, to, subject, text = "", html = "" }) {
+  // Try SendGrid first when available
+  if (sgMail) {
+    const msg = { to, from, subject, text, html };
+    try {
+      const res = await sgMail.send(msg);
+      return { success: true, provider: "sendgrid", response: res };
+    } catch (err) {
+      console.error("❌ SendGrid send error:", err && err.message);
+      // fallthrough to SMTP fallback
+    }
+  }
 
-    return { success: true, messageId: info.messageId, info };
-  } catch (error) {
-    console.error("❌ Email Error:", error && error.message);
-    return { success: false, error: error && error.message };
+  // Fallback to SMTP
+  try {
+    const info = await smtpTransporter.sendMail({ from, to, subject, text, html });
+    return { success: true, provider: "smtp", messageId: info.messageId, info };
+  } catch (err) {
+    console.error("❌ SMTP send error:", err && err.message, err && err.code);
+    return { success: false, error: err && err.message, code: err && err.code };
   }
 }
 
