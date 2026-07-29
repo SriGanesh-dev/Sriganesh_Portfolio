@@ -11,6 +11,7 @@ import Resume from './components/Resume';
 import Footer from './components/Footer';
 import OfflinePage from './components/OfflinePage';
 import PageNotFound from './components/PageNotFound';
+import ParticleBackground from './components/ParticleBackground';
 
 function App() {
   const [isOnline, setIsOnline] = useState(typeof navigator !== 'undefined' ? navigator.onLine : true);
@@ -42,6 +43,7 @@ function App() {
 
   return (
     <>
+      <ParticleBackground />
       <Navbar />
       <Hero />
       <About />

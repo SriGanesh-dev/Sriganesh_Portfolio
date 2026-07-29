@@ -81,40 +81,8 @@ function Hero() {
     return () => ScrollTrigger.getAll().forEach((t) => t.kill());
   }, []);
 
-  const codeSymbols = ["</>", "{}", "JS", "()", "<>", "React", "Node", "SQL"];
-
   return (
     <section id="hero" className="container">
-      {/* PARTICLES */}
-      <div className="particles">
-        {[...Array(20)].map((_, i) => (
-          <span
-            key={`particle-${i}`}
-            className="particle"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 5}s`,
-              animationDuration: `${3 + Math.random() * 4}s`,
-            }}
-          />
-        ))}
-
-        {codeSymbols.map((symbol, index) => (
-          <span
-            key={`code-${index}`}
-            className="particle-code"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 5}s`,
-            }}
-          >
-            {symbol}
-          </span>
-        ))}
-      </div>
-
       <div className="hero">
         <div className="hero-content">
           <p className="wlm-txt">Welcome to My Portfolio</p>

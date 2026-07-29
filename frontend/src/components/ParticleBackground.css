@@ -1,0 +1,42 @@
+.portfolio-particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.portfolio-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(0, 255, 255, 0.364);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.245);
+  animation: floatParticle 5s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.portfolio-particle-code {
+  position: absolute;
+  color: rgba(130, 202, 202, 0.7);
+  font-family: monospace;
+  font-size: 14px;
+  animation: floatParticle 6s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes floatParticle {
+  0% {
+    transform: translateY(0) scale(0.95);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translateY(-18px) scale(1.05);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateY(0) scale(0.95);
+    opacity: 0.35;
+  }
+}
